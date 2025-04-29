@@ -16,6 +16,7 @@ type URLCheckResult = {
   url: string;
   domain: string;
   issues: Issue[];
+  riskScore: number;
 };
 
 // Load phishing domain list
@@ -60,6 +61,31 @@ try {
   console.error('Error reading known domains list:', err);
 }
 
+const issueWeights: Record<string, number> = {
+  KnownPhishingDomain: 40,
+  NumbersInDomain: 10,
+  ExcessiveSubdomains: 10,
+  SpecialCharacters: 10,
+  DomainTooNew: 30,
+  DomainAgeUnknown: 10,
+  DomainAgeCheckFailed: 5,
+  DDNSDetected: 30,
+  NoSSLCertificate: 20,
+  ExpiredSSLCertificate: 20,
+  WeakSSLIssuer: 10,
+  SSLConnectionError: 10,
+  SSLTimeout: 10,
+  TooManyRedirects: 15,
+  InsecureRedirect: 15,
+  CrossDomainRedirect: 15,
+  RedirectCheckFailed: 5,
+  SimilarToKnownDomain: 20,
+  FormDetected: 5,
+  LoginFormDetected: 10,
+  SensitiveFieldDetected: 10,
+  FormAnalysisFailed: 5,
+};
+
 export async function analyzeURL(input: string): Promise<URLCheckResult> {
   const normalizedURL = input.startsWith('http://') || input.startsWith('https://')
     ? input
@@ -76,6 +102,7 @@ export async function analyzeURL(input: string): Promise<URLCheckResult> {
         type: 'InvalidDomain',
         message: `Could not parse domain from input: "${normalizedURL}"`,
       }],
+      riskScore: 0,
     };
   }
 
@@ -127,10 +154,19 @@ export async function analyzeURL(input: string): Promise<URLCheckResult> {
   const formIssues = await checkForSensitiveForms(normalizedURL);
   issues.push(...formIssues);
 
+  let score = 0;
+  for (const issue of issues) {
+    score += issueWeights[issue.type] || 0;
+  }
+
+  // Normalize to a maximum of 100
+  if (score > 100) score = 100;
+
   return {
     url: input,
     domain,
     issues,
+    riskScore: score,
   };
 }
 
