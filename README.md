@@ -2,7 +2,7 @@
 
 This is the backend API for analyzing URLs and detecting phishing indicators. It is written in TypeScript using Express and exposes a single HTTP endpoint.
 
-## 🚀 Features
+## Features
 
 - WHOIS-based domain age verification
 - Known phishing domain list check
@@ -13,7 +13,7 @@ This is the backend API for analyzing URLs and detecting phishing indicators. It
 - HTML form inspection for login fields or sensitive data
 - Risk score calculation with detailed issue list
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 PhishingBackend/
@@ -27,7 +27,7 @@ PhishingBackend/
 ├── package.json
 ```
 
-## 📡 API
+## API
 
 ### `GET /analyze?url=example.com`
 
@@ -71,6 +71,6 @@ Analyze a given URL and return structured phishing detection results.
 
 > Make sure your `data/` folder is in the root and includes `phishing-domains.txt` and `known-domains.txt`.
 
-## 📄 License
+## License
 
 MIT
