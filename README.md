@@ -1,74 +1,76 @@
-# PhishingDetector
+# Phishing Detection Backend
 
-A TypeScript-based tool for detecting potentially malicious or phishing URLs using heuristics and a domain blacklist.
+This is the backend API for analyzing URLs and detecting phishing indicators. It is written in TypeScript using Express and exposes a single HTTP endpoint.
 
-## Features
+## 🚀 Features
 
-- Detects known phishing domains from a local list (`phishing-domains.txt`)
-- Analyzes suspicious patterns:
-  - Numbers replacing letters in domain names
-  - Excessive use of subdomains
-  - Presence of unusual special characters
-- Returns a JSON object with all flagged issues
-- Built entirely in TypeScript with CommonJS compatibility
+- WHOIS-based domain age verification
+- Known phishing domain list check
+- Dynamic DNS (DDNS) detection
+- SSL certificate validation and inspection
+- Redirect chain analysis
+- Domain similarity check using Levenshtein distance
+- HTML form inspection for login fields or sensitive data
+- Risk score calculation with detailed issue list
 
-## Project Structure
+## 📦 Project Structure
 
 ```
-PhishingDetector/
+PhishingBackend/
 ├── data/
-│   └── phishing-domains.txt         # List of known phishing domains
+│   ├── phishing-domains.txt        # List of known phishing domains
+│   └── known-domains.txt           # Top 1000 most popular domains
 ├── src/
-│   └── phishingDetector.ts          # Main detection logic
-├── index.ts                         # Entry point for testing
-├── tsconfig.json                    # TypeScript config
+│   ├── server.ts                   # Express API server
+│   └── phishingDetector.ts         # Core phishing detection logic
+├── tsconfig.json
+├── package.json
 ```
 
-## Usage
+## 📡 API
 
-### Run using `ts-node` (development)
+### `GET /analyze?url=example.com`
 
-```bash
-npx ts-node index.ts
-```
+Analyze a given URL and return structured phishing detection results.
 
-### Compile and run (production)
-
-```bash
-npx tsc
-node dist/index.js
-```
-
-### Sample output
+#### Response
 
 ```json
 {
-  "url": "0000000000c0.x9xcax2a.workers.dev",
-  "domain": "0000000000c0.x9xcax2a.workers.dev",
+  "url": "example.com",
+  "domain": "example.com",
   "issues": [
     {
-      "type": "KnownPhishingDomain",
-      "message": "Domain '0000000000c0.x9xcax2a.workers.dev' is listed as a phishing site."
-    },
-    {
-      "type": "NumbersInDomain",
-      "message": "Domain '0000000000c0.x9xcax2a.workers.dev' contains numbers, which can be suspicious."
-    },
-    {
-      "type": "ExcessiveSubdomains",
-      "message": "Domain '0000000000c0.x9xcax2a.workers.dev' has too many subdomains."
+      "type": "SimilarToKnownDomain",
+      "message": "Domain is similar to google.com"
     }
-  ]
+  ],
+  "riskScore": 45
 }
 ```
 
-## Configuration
+## 🛠 Setup
 
-To ensure compatibility:
+1. Install dependencies:
 
-- `phishing-domains.txt` should list one domain per line, no protocols (`http://` or `https://`)
-- The tool supports both full URLs and bare domain strings
+   ```bash
+   npm install
+   ```
 
-## License
+2. Start the server:
+
+   ```bash
+   npx ts-node src/server.ts
+   ```
+
+3. Visit:
+
+   ```
+   http://localhost:3000/analyze?url=example.com
+   ```
+
+> Make sure your `data/` folder is in the root and includes `phishing-domains.txt` and `known-domains.txt`.
+
+## 📄 License
 
 MIT
