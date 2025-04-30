@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import tls from 'tls';
 import { distance } from 'fastest-levenshtein';
+import dns from 'dns/promises';
 
 const got = require('got').default;
 const whois = require('whois-json');
@@ -61,6 +62,15 @@ try {
   console.error('Error reading known domains list:', err);
 }
 
+async function checkDomainExists(domain: string): Promise<boolean> {
+  try {
+    await dns.lookup(domain);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 const issueWeights: Record<string, number> = {
   KnownPhishingDomain: 40,
   NumbersInDomain: 10,
@@ -102,6 +112,16 @@ export async function analyzeURL(input: string): Promise<URLCheckResult> {
         type: 'InvalidDomain',
         message: `Could not parse domain from input: "${normalizedURL}"`,
       }],
+      riskScore: 0,
+    };
+  }
+
+  const domainExists = await checkDomainExists(domain);
+  if (!domainExists) {
+    return {
+      url: input,
+      domain,
+      issues: [{ type: 'NonExistentDomain', message: `The domain '${domain}' does not exist.` }],
       riskScore: 0,
     };
   }
