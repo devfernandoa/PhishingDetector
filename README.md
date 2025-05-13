@@ -7,7 +7,7 @@ PhishingDetector is a comprehensive system designed to detect and prevent phishi
 This is the parent repository that organizes the project into three main components:
 
 1. **[PhishingExtension](./PhishingExtension)**  
-   A browser extension that monitors URLs and user actions to detect potential phishing threats in real time.
+   A firefox extension that monitors URLs and user actions to detect potential phishing threats in real time.
 
 2. **[PhishingUI](./PhishingUI)**  
    A modern frontend interface that allows users to interact with the system, review detected threats, and manage their preferences.
@@ -22,7 +22,7 @@ To set up the project locally:
 1. Clone this repository and its submodules (if applicable):
 
    ```bash
-   git clone --recurse-submodules https://github.com/your-org/PhishingDetector.git
+   git clone --recurse-submodules https://github.com/devfernandoa/PhishingDetector.git
    ```
 
 2. Follow the setup instructions in each component's README:
