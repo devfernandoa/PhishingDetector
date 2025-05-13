@@ -1,0 +1,9 @@
+[submodule "PhishingBackend"]
+	path = PhishingBackend
+	url = https://github.com/devfernandoa/PhishingDetectorBackend
+[submodule "PhishingExtension"]
+	path = PhishingExtension
+	url = https://github.com/devfernandoa/PhishingExtension
+[submodule "PhishingUI"]
+	path = PhishingUI
+	url = https://github.com/devfernandoa/PhishingDetectorUI
