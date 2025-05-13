@@ -33,7 +33,7 @@ To set up the project locally:
 3. Each project is hosted on it's own website:
    - [Phishing Extension](https://addons.mozilla.org/en-US/firefox/addon/phishing-detector-extension/)
    - [Phishing UI](https://phishing.fernandoa.dev/)
-   - [Phishing Backend](https://phishingdetector-production-a575.up.railway.app/analyze?url=Z29vZ2xlLmNvbQ==)
+   - [Phishing Backend](https://phishingdetector-production-a575.up.railway.app/analyze?url=google.com)
 
 ## License
 
