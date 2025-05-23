@@ -2,6 +2,10 @@
 
 PhishingDetector is a comprehensive system designed to detect and prevent phishing attempts using a combination of a browser extension, backend analysis, and a user-friendly web interface.
 
+## Video Example
+
+https://github.com/user-attachments/assets/fc875567-2e7e-4352-bd11-cad1d1707667
+
 ## Repository Structure
 
 This is the parent repository that organizes the project into three main components:
